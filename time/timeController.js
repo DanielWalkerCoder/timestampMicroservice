@@ -1,11 +1,13 @@
-async function getTime(req, res, next){
+function getTime(req, res, next){
     try{
-        let date = await req.params.date
+        let date = req.params.date
+        console.log(new Date(date))
         if(date === undefined){
             res.json({"unix": parseInt(Date.parse((new Date()).toUTCString())), "utc": (new Date()).toUTCString()})
-        }
-        if(isUnix(date)){
+        }else if(isUnix(date)){
             res.json({"unix": parseInt(date), "utc": (new Date(parseInt(date))).toUTCString()})
+        }else if((new Date(date)).toString() === 'Invalid Date'){
+            res.json({ error : "Invalid Date" })
         }else{
             date = decodeURI(date)
             res.json({"unix": Date.parse((new Date(date)).toUTCString()), "utc": (new Date(date)).toUTCString()})
@@ -28,7 +30,6 @@ function isUnix(str){
 
 
 module.exports = {
-    getTime,
-    isUnix
+    getTime
 }
 
