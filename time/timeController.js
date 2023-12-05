@@ -2,10 +2,10 @@ async function getTime(req, res, next){
     try{
         let date = await req.params.date
         if(date === undefined){
-            res.json({"unix": Date.parse((new Date()).toUTCString()), "utc": (new Date()).toUTCString()})
+            res.json({"unix": parseInt(Date.parse((new Date()).toUTCString())), "utc": (new Date()).toUTCString()})
         }
         if(isUnix(date)){
-            res.json({"unix": date, "utc": (new Date(parseInt(date))).toUTCString()})
+            res.json({"unix": parseInt(date), "utc": (new Date(parseInt(date))).toUTCString()})
         }else{
             date = decodeURI(date)
             res.json({"unix": Date.parse((new Date(date)).toUTCString()), "utc": (new Date(date)).toUTCString()})
